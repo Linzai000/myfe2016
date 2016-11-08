@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>吸血鬼日记</title>
+    <style>
+        *{
+            margin:0;
+            padding:0;
+
+        }
+        ul{
+            list-style: none;
+        }
+        img{border:0;
+
+        }
+        #container{
+            margin:50px auto;
+            width:960px;
+            height:544px;
+            position:relative;
+            /*overflow: hidden;*/
+
+        }
+        #tab li{
+            float:left;
+            height:20px;
+            width:20px;
+            line-height:20px;
+            text-align: center;
+            margin-right:5px;
+            background: #000;
+            color:white;
+            cursor:pointer;
+
+
+        }
+        #tab{
+            position:absolute;
+            bottom:10px;
+            right: 20px;
+            z-index: 9999;
+        }
+        #la{
+            position: relative;
+        }
+        #la img{
+            position: absolute;
+            top:0;
+            left:0;
+        }
+        #content span{
+            float:left;
+            /*position:absolute;*/
+            /*bottom:10px;*/
+            /*left:20px;*/
+            background: #000;
+            color:white;
+            width:20px;
+            height:20px;
+            line-height: 20px;
+            text-align: center;
+            margin-right: 5px;
+            cursor:pointer;
+
+        }
+        #content{
+            position:absolute;
+            bottom:10px;
+            left:20px;
+            z-index: 9999;
+        }
+
+
+        #tab .selected{
+            background: orange;
+        }
+
+
+
+
+    </style>
+</head>
+<body>
+<div id="container">
+    <ul id="tab">
+        <li class="selected">1</li>
+        <li>2</li>
+        <li>3</li>
+        <li>4</li>
+    </ul>
+    <div id="la">
+        <img  src="轮播图/img/156.jpg" alt=""/>
+        <img src="轮播图/img/145.jpg" alt=""/>
+        <img src="轮播图/img/9999.jpg" alt=""/>
+        <img src="轮播图/img/178.jpg" alt=""/>
+    </div>
+    <div id="content">
+        <span id="last">&lt;</span>
+        <span id="next">&gt;</span>
+    </div>
+
+</div>
+<script src="jslib.js"></script>
+<script>
+    var oContainer = document.getElementById('container');
+    var oTab = document.getElementById('tab');
+    var aLi = oTab.getElementsByTagName('li');
+    var oLa = document.getElementById('la');
+    var aImg = oLa.getElementsByTagName('img');
+    var oLast = document.getElementById('last');
+    var oNext = document.getElementById('next');
+    var zIndex = 4;
+    var iNow = 0;
+
+
+    for(var i = 0;i<aLi.length;i++){
+        aImg[i].style.zIndex = aImg.length-i;
+        aLi[i].index = i;
+        aLi[i].onmouseover = function(){
+            iNow = this.index;
+            inter(this.index);
+        };
+
+
+
+    }
+    oLast.onclick = function(){
+        iNow--;
+        if(iNow ==-1){
+            iNow = aLi.length-1;
+        }
+        inter(iNow);
+    };
+    oNext.onclick = function(){
+        iNow++;
+        if(iNow==aLi.length){
+            iNow = 0;
+        }
+        inter(iNow);
+
+    };
+     function inter(idx){
+         for(var i = 0;i<aLi.length;i++){
+             aLi[i].className = '';
+         }
+         aLi[idx].className = 'selected';
+
+         var oImg = aImg[idx];
+
+         oImg.style.opacity = 0;
+         oImg.style.filter = 'alpha(opacity = 0)';
+         oImg.style.zIndex = ++zIndex;
+
+
+         animate(oImg,{opacity:100});
+     }
+
+
+</script>
+</body>
+</html>
