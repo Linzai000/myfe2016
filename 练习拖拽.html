@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>拖拽小框</title>
+    <style>
+        div{
+            background: #00ff00;
+            height: 200px;
+            width: 200px;
+            color: #ff0000;
+            line-height: 200px;
+            text-align: center;
+            position: absolute;
+            left: 0;
+            top: 0;
+
+        }
+    </style>
+</head>
+<body>
+    aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+    <div id="div1">Vampire Diaries</div>
+    <script>
+        var oDiv = document.getElementById('div1');
+        var iDivl = 0;
+        var iDivt = 0 ;
+        oDiv.onmousedown = function(e){
+          e = e||window.event;
+             iDivl = e.clientX-oDiv.offsetLeft;
+             iDivt = e.clientY-oDiv.offsetTop;
+            document.onmousemove = function(e){
+                e = e||window.event;
+               var iLeft = e.clientX-iDivl;
+                var iTop = e.clientY-iDivt;
+                if(iLeft <= 30){
+                    iLeft = 0;
+                }
+                if(iLeft >= document.documentElement.clientWidth - oDiv.offsetWidth){
+                    iLeft = document.documentElement.clientWidth - oDiv.offsetWidth;
+                }
+                if(iTop <= 30){
+                    iTop = 0;
+                }
+                if(iTop >= document.documentElement.clientHeight - oDiv.offsetHeight){
+                    iTop = document.documentElement.clientHeight - oDiv.offsetHeight;
+                }
+
+                oDiv.style.left = iLeft+'px';
+                oDiv.style.top = iTop+'px';
+                return false;
+            };
+            document.onmouseup = function(){
+                document.onmousemove = null;
+                document.onmouseup = null;
+
+            };
+        };
+    </script>
+</body>
+</html>
