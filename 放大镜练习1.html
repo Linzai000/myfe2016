@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>放大镜</title>
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+        }
+        img{
+            border: 0;
+        }
+        #small-container{
+            height: 400px;
+            width: 400px;
+            position: relative;
+            border: 2px solid #000000;
+        }
+        #float{
+            background: #cccccc;
+            height: 100px;
+            width: 100px;
+            position: absolute;
+            top: 0;
+            left: 0;
+            opacity: 0.5;
+            filter:alpha(opacity = 50);
+            display: none;
+        }
+        #big-container{
+            height: 500px;
+            width: 500px;
+            position: absolute;
+            left: 410px;
+            top: 0;
+            overflow: hidden;
+            border: 2px solid #000000;
+            display: none;
+        }
+        #big-pho{
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+    </style>
+</head>
+<body>
+    <div id="small-container">
+        <img id="small-pho"   src="放大镜/img/1.jpg"/>
+        <div id="float"></div>
+    </div>
+    <div id="big-container">
+        <img id="big-pho"   src="放大镜/img/2.jpg"/>
+    </div>
+    <script>
+        var oSmallContainer = document.getElementById('small-container');
+        var oSmallPho = document.getElementById('small-pho');
+        var oFloat = document.getElementById('float');
+        var oBigContainer = document.getElementById('big-container');
+        var oBigPho = document.getElementById('big-pho');
+        oSmallContainer.onmouseover = function(){
+            oFloat.style.display = 'block';
+            oBigContainer.style.display = 'block';
+
+            oSmallContainer.onmousemove = function(e){
+                e = e||window.event;
+                var iDisY = e.clientY - oFloat.offsetHeight/2;
+                var iDisX = e.clientX - oFloat.offsetWidth/2;
+                if(iDisY < 0  ){
+                    iDisY = 0;
+                }
+                if(iDisY > oSmallContainer.offsetHeight - oFloat.offsetHeight){
+                    iDisY = oSmallContainer.offsetHeight - oFloat.offsetHeight;
+                }
+                if(iDisX < 0){
+                    iDisX = 0;
+                }
+                if(iDisX > oSmallContainer.offsetWidth - oFloat.offsetWidth){
+                    iDisX = oSmallContainer.offsetWidth - oFloat.offsetWidth
+                }
+                oFloat.style.top = iDisY + 'px';
+                oFloat.style.left = iDisX + 'px';
+                var fScaleY = iDisY/(oSmallContainer.offsetHeight - oFloat.offsetHeight);
+                var fScaleX = iDisX/(oSmallContainer.offsetWidth - oFloat.offsetWidth);
+
+                oBigPho.style.top = -fScaleY * (oBigPho.offsetHeight - oBigContainer.offsetHeight)+'px';
+                oBigPho.style.left = -fScaleX * (oBigPho.offsetWidth - oBigContainer.offsetWidth)+'px';
+
+            };
+            oSmallContainer.onmouseout = function(){
+                oFloat.style.display = 'none';
+                oBigContainer.style.display = 'none';
+            };
+        };
+
+    </script>
+</body>
+</html>
